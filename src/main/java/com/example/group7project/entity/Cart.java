@@ -35,8 +35,8 @@ public class Cart {
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastModifiedAt;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
