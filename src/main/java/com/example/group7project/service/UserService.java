@@ -1,15 +1,20 @@
 package com.example.group7project.service;
 
-import com.example.group7project.dto.UserDTO;
+import com.example.group7project.dto.UserResponseDTO;
+import com.example.group7project.dto.UserRequestDTO;
 import com.example.group7project.entity.Customer;
 import com.example.group7project.entity.User;
+import com.example.group7project.exception.UserServiceBusinessException;
 import com.example.group7project.repository.CustomerRepository;
 import com.example.group7project.repository.RoleRepository;
 import com.example.group7project.repository.UserRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
@@ -30,7 +35,7 @@ public class UserService {
         this.customerRepository = customerRepository;
     }
 
-    public void createNewUser(UserDTO userDto) {
+    public void createNewUser(UserRequestDTO userDto) {
         Customer customer = new Customer();
         customer.setFirstName(userDto.getFirstName());
         customer.setLastName(userDto.getLastName());
@@ -47,5 +52,27 @@ public class UserService {
         customer.setUser(newUser);
         userRepository.save(newUser);
         log.info("New user created: {}", newUser.getUsername());
+    }
+
+    public UserResponseDTO getUserById(Long id) {
+        try {
+            return userRepository.findUserResponseById(id)
+                    .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+        }
+        catch (Exception e) {
+            log.error("UserService::getUserById method execution failed: {}", e.getMessage());
+            throw new UserServiceBusinessException("UserService::getUserById method execution failed: " + e.getMessage(), e);
+        }
+    }
+
+    public List<UserResponseDTO> getAllUsers() {
+        try {
+            return userRepository.findAllUserResponse()
+                    .orElseThrow(() -> new RuntimeException("No users found") );
+        }
+        catch (Exception e) {
+            log.error("UserService::getAllUsers method execution failed: {}", e.getMessage());
+            throw new UserServiceBusinessException("UserService::getAllUsers method execution failed: " + e.getMessage(), e);
+        }
     }
 }
