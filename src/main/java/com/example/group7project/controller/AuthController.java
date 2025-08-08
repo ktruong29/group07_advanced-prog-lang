@@ -1,8 +1,7 @@
 package com.example.group7project.controller;
 
 import com.example.group7project.dto.AuthRequestDTO;
-import com.example.group7project.dto.UserDTO;
-import com.example.group7project.entity.User;
+import com.example.group7project.dto.UserRequestDTO;
 import com.example.group7project.service.JwtService;
 import com.example.group7project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +31,13 @@ public class AuthController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserDTO userRequest) {
+    @PostMapping("/register")
+    public ResponseEntity<String> signup(@RequestBody UserRequestDTO userRequest) {
         userService.createNewUser(userRequest);
         return ResponseEntity.ok("User registered successfully!");
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public String authenticate(@RequestBody AuthRequestDTO authRequest) {
         //authenticate the request before distributing the token
         Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
