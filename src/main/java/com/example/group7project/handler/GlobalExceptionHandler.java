@@ -2,6 +2,7 @@ package com.example.group7project.handler;
 
 import com.example.group7project.dto.AppResponseDTO;
 import com.example.group7project.dto.ErrorDTO;
+import com.example.group7project.exception.CartServiceBusinessException;
 import com.example.group7project.exception.CustomerServiceBusinessException;
 import com.example.group7project.exception.ProductServiceBusinessException;
 import com.example.group7project.exception.UserServiceBusinessException;
@@ -52,6 +53,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductServiceBusinessException.class)
     public AppResponseDTO<?> handleProductServiceBusinessException(ProductServiceBusinessException ex) {
+        AppResponseDTO<?> appResponseDTO = new AppResponseDTO<>();
+
+        List<ErrorDTO> errors = List.of(new ErrorDTO(ex.getMessage()));
+
+        appResponseDTO.setStatus(HttpStatus.BAD_REQUEST);
+        appResponseDTO.setErrors(errors);
+
+        return appResponseDTO;
+    }
+
+    @ExceptionHandler(CartServiceBusinessException.class)
+    public AppResponseDTO<?> handleCartServiceBusinessException(CartServiceBusinessException ex) {
         AppResponseDTO<?> appResponseDTO = new AppResponseDTO<>();
 
         List<ErrorDTO> errors = List.of(new ErrorDTO(ex.getMessage()));
