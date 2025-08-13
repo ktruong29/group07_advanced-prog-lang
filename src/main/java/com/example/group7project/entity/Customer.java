@@ -8,12 +8,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-@ToString(exclude = {"user", "cart"})
+@ToString(exclude = {"user", "carts"})
+@EqualsAndHashCode(exclude = "user")
 @Builder
 @Entity
 @Table(name = "CUSTOMER")
