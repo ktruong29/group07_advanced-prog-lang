@@ -2,10 +2,7 @@ package com.example.group7project.handler;
 
 import com.example.group7project.dto.AppResponseDTO;
 import com.example.group7project.dto.ErrorDTO;
-import com.example.group7project.exception.CartServiceBusinessException;
-import com.example.group7project.exception.CustomerServiceBusinessException;
-import com.example.group7project.exception.ProductServiceBusinessException;
-import com.example.group7project.exception.UserServiceBusinessException;
+import com.example.group7project.exception.*;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -65,6 +62,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CartServiceBusinessException.class)
     public AppResponseDTO<?> handleCartServiceBusinessException(CartServiceBusinessException ex) {
+        AppResponseDTO<?> appResponseDTO = new AppResponseDTO<>();
+
+        List<ErrorDTO> errors = List.of(new ErrorDTO(ex.getMessage()));
+
+        appResponseDTO.setStatus(HttpStatus.BAD_REQUEST);
+        appResponseDTO.setErrors(errors);
+
+        return appResponseDTO;
+    }
+
+    @ExceptionHandler(OrderServiceBusinessException.class)
+    public AppResponseDTO<?> handleOrderServiceBusinessException(OrderServiceBusinessException ex) {
         AppResponseDTO<?> appResponseDTO = new AppResponseDTO<>();
 
         List<ErrorDTO> errors = List.of(new ErrorDTO(ex.getMessage()));

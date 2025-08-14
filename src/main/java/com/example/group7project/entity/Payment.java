@@ -1,9 +1,6 @@
 package com.example.group7project.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @ToString(exclude = {"order"})
+@EqualsAndHashCode(exclude = "order")
 @Entity
 @Table(name = "PAYMENT")
 public class Payment {
