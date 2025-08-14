@@ -47,7 +47,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 //authorize the requests and authenticates all URLs that starts with /employees/**
                 //except the /employees/welcome
-                .antMatchers("/employees/**").authenticated()
+                .antMatchers("/cart/**", "/customer/**", "/orders/**", "/products/**", "/users/**").authenticated()
                 .and()
                 //Tell Spring to use custom AuthenticationProvider
                 .sessionManagement()
