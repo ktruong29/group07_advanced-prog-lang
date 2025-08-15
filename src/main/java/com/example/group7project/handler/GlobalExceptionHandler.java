@@ -83,4 +83,16 @@ public class GlobalExceptionHandler {
 
         return appResponseDTO;
     }
+
+    @ExceptionHandler(PaymentServiceBusinessException.class)
+    public AppResponseDTO<?> handlePaymentServiceBusinessException(PaymentServiceBusinessException ex) {
+        AppResponseDTO<?> appResponseDTO = new AppResponseDTO<>();
+
+        List<ErrorDTO> errors = List.of(new ErrorDTO(ex.getMessage()));
+
+        appResponseDTO.setStatus(HttpStatus.BAD_REQUEST);
+        appResponseDTO.setErrors(errors);
+
+        return appResponseDTO;
+    }
 }
